@@ -8,7 +8,7 @@ import { AlertCard } from "./components/AlertCard";
 import type { Alert } from "./types/alertModel";
 
 function App() {
-  const { alerts, addAlert, editAlert, removeAlert } = useAlerts();
+  const { alerts, error, addAlert, editAlert, removeAlert } = useAlerts();
 
   const [search, setSearch] = useState("");
   const [priority, setPriority] = useState("All");
@@ -43,63 +43,81 @@ function App() {
           .trim()
           .toLocaleLowerCase()
           .includes(search.trim().toLowerCase())
-      : false;
-    const hasPriority = priority !== "All" ? a.priority === priority : false;
-    const hasArena = arena !== "All" ? a.arena === arena : false;
+      : true;
+    const hasPriority = priority !== "All" ? a.priority === priority : true;
+    const hasArena = arena !== "All" ? a.arena === arena : true;
     return inSearch && hasPriority && hasArena;
   });
 
   return (
-    <>
-      <FilterSearch
-        search={search}
-        setSearch={setSearch}
-        priority={priority}
-        setPriority={setPriority}
-        arena={arena}
-        setArena={setArena}
-      />
-
-      {formOpen && <AlertForm onSubmit={handleFormSubmit} />}
-
-      {!selectedAlert &&
-        filteredAlerts.map((alert) => {
-          <AlertCard
-            alert={alert}
-            onEdit={() => {
-              setFormOpen(true);
-              setEditing(alert);
-            }}
-            onSelect={() => {
-              setSelected(alert);
-            }}
-            onDelete={async () => {
-              await removeAlert(alert.id);
-            }}
-            selected={false}
-          />;
-        })}
-
-      {selectedAlert && (
-        <div>
-          <button onClick={() => setSelected(null)}>Back...</button>
-          <AlertCard
-            alert={selectedAlert}
-            onEdit={() => {
-              setFormOpen(true);
-              setEditing(selectedAlert);
-            }}
-            onDelete={async () => {
-              await removeAlert(selectedAlert.id);
-            }}
-            onSelect={() => {}}
-            selected={true}
+    <div className="web-body">
+      <div>
+        {!formOpen && (
+          <FilterSearch
+            search={search}
+            setSearch={setSearch}
+            priority={priority}
+            setPriority={setPriority}
+            arena={arena}
+            setArena={setArena}
           />
-        </div>
-      )}
+        )}
+        {!formOpen && (
+          <button onClick={() => setFormOpen(true)}>Add new alert</button>
+        )}
 
-      <AlertsMap alerts={alerts} />
-    </>
+        {formOpen && (
+          <AlertForm
+            onSubmit={handleFormSubmit}
+            onCancel={() => setFormOpen(false)}
+            error={error}
+            initialItems={editingAlert}
+          />
+        )}
+        {!formOpen && filteredAlerts.length === 0 && <h2>Alerts list is empty..</h2>}
+
+        {!formOpen && !selectedAlert && (
+          <ul className="cards-list">
+            {filteredAlerts.map((alert) => (
+              <AlertCard
+                alert={alert}
+                onEdit={() => {
+                  setFormOpen(true);
+                  setEditing(alert);
+                }}
+                onSelect={() => {
+                  setSelected(alert);
+                }}
+                onDelete={async () => {
+                  await removeAlert(alert.id);
+                }}
+                selected={false}
+              />
+            ))}
+          </ul>
+        )}
+
+        {!formOpen && selectedAlert && (
+          <div>
+            <button onClick={() => setSelected(null)}>Back...</button>
+            <AlertCard
+              alert={selectedAlert}
+              onEdit={() => {
+                setFormOpen(true);
+                setEditing(selectedAlert);
+              }}
+              onDelete={async () => {
+                await removeAlert(selectedAlert.id);
+              }}
+              onSelect={() => {}}
+              selected={true}
+            />
+          </div>
+        )}
+      </div>
+
+      <AlertsMap alerts={filteredAlerts} />
+    </div>
   );
 }
 

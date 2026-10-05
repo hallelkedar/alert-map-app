@@ -12,7 +12,7 @@ export const useAlerts = () => {
     setError(null);
     try {
       const alertData = await getAlerts();
-      setAlerts(alertData);
+      setAlerts(alertData.alerts);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -23,7 +23,6 @@ export const useAlerts = () => {
   useEffect(() => {
     loadAlerts()
   }, [])
-  console.log(alerts)
 
   const addAlert = async (data: Alert) => {
     setLoading(true);
@@ -74,5 +73,3 @@ export const useAlerts = () => {
     removeAlert
   }
 };
-
-

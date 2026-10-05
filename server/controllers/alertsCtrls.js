@@ -26,9 +26,8 @@ export default {
   },
   deleteAlert: async (req, res) => {
     const { id } = req.params;
-    console.log(id)
+    
     const deleted = await alertsRepo.deleteAlert(id);
-    console.log(deleted)
     if (!deleted) errorThrowing("Alert not found", 404);
 
     return res.json({ alert: deleted });

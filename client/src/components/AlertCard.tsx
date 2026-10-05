@@ -14,7 +14,7 @@ export const AlertCard = ({
   selected: boolean
 }) => {
   return (
-    <div>
+    <div className="alert-card">
       <div className="card-header">
         <h3>{alert.displayName}</h3>
         <span>{alert.status}</span>
@@ -29,7 +29,7 @@ export const AlertCard = ({
       </div>
 
       {!selected && <button onClick={() => onSelect()}>More...</button>}
-      <button onClick={() => onEdit()}>Edit alert</button>\
+      <button onClick={() => onEdit()}>Edit alert</button>
       <button onClick={() => onDelete()}>Delete</button>
     </div>
   );

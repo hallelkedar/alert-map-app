@@ -9,7 +9,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(cors({
-    origin: 'http://localhost:5173/',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
 app.use(express.json())
@@ -25,7 +25,9 @@ app.use(errorHandler)
 
 try {
     await connectDB()
-    app.listen(port, () => console.log(`Server running on port ${port}`))
+    app.listen(port, (err) => {
+        if(err) return console.error(err);
+        console.log(`Server running on port ${port}`)})
 } catch (error) {
     console.log(`Failed to start server, error: ${error}`)
     process.exit(1)

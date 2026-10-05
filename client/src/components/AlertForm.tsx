@@ -7,21 +7,32 @@ export const activeOptions = ["Active", "Handled"];
 
 export const AlertForm = ({
   onSubmit,
+  onCancel,
+  error = null,
+  initialItems = null
 }: {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, data: Alert) => void;
+  onCancel: () => void;
+  error: string | null;
+  initialItems: Alert | null
 }) => {
-  const [displayName, setName] = useState("");
-  const [description, setDesc] = useState("");
-  const [priority, setPriority] = useState("Medium");
-  const [arena, setArena] = useState("Center");
-  const [status, setStatus] = useState("Active");
-  const [error, setError] = useState<string | null>(null);
+  const [displayName, setName] = useState(initialItems ? initialItems.displayName : "");
+  const [description, setDesc] = useState(initialItems ? initialItems.description : "");
+  const [priority, setPriority] = useState(initialItems ? initialItems.priority : "Medium");
+  const [arena, setArena] = useState(initialItems ? initialItems.arena : "Center");
+  const [status, setStatus] = useState(initialItems ? initialItems.status : "Active");
 
-  const [lon, setLon] = useState<number | null>(null);
-  const [lat, setLat] = useState<number | null>(null);
+  const [lon, setLon] = useState<number | string>(initialItems ? initialItems.lon : '');
+  const [lat, setLat] = useState<number | string>(initialItems ? initialItems.lat : '');
 
   return (
     <form
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "300px",
+        margin: "12px auto",
+      }}
       onSubmit={(e) =>
         onSubmit(e, {
           displayName,
@@ -34,8 +45,8 @@ export const AlertForm = ({
         })
       }
     >
+      <button onClick={() => onCancel()}>Cancel</button>
       {error && <span style={{ color: "red" }}>{error}</span>}
-
       <input
         type="text"
         value={displayName}
