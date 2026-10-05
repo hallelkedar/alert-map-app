@@ -1,12 +1,19 @@
 import express from 'express';
+import cors from 'cors'
 import alertsCtrls from './controllers/alertsCtrls.js';
 import { connectDB } from './db/db.js';
 import errorHandler from './middlewares/errorHandler.js';
+import logger from './middlewares/logger.js';
 
 const app = express()
 const port = process.env.PORT || 3000
 
+app.use(cors({
+    origin: 'http://localhost:5173/',
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}))
 app.use(express.json())
+app.use(logger)
 
 app.get('/api/alerts', alertsCtrls.getAlerts)
 app.get('/api/alerts/:id', alertsCtrls.getAlert)

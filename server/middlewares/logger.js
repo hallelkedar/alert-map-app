@@ -1,4 +1,4 @@
-export default (req, res, next) => {
+export default (req, _res, next) => {
     console.log(`${req.method} | ${req.url}`)
     next()
 } 
