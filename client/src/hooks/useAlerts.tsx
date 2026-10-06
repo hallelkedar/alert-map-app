@@ -34,6 +34,7 @@ export const useAlerts = () => {
     try {
       const alertData = await createAlert(data);
       setAlerts(prev => [alertData, ...prev])
+      return true
     } catch (error) {
       setError(error.message);
     } finally {
@@ -46,7 +47,8 @@ export const useAlerts = () => {
     setError(null);
     try {
       await updateAlert(id, data);
-      setAlerts(prev => prev.map(a => a._id === id ? data : a));
+      setAlerts(prev => prev.map(a => a.id === id ? data : a));
+      return true
     } catch (error) {
       setError(error.message);
     } finally {
@@ -59,7 +61,8 @@ export const useAlerts = () => {
     setError(null);
     try {
       const alertData = await deleteAlert(id);
-      setAlerts(prev => prev.filter(a => a._id !== id));
+      setAlerts(prev => prev.filter(a => a.id !== id));
+      return true
     } catch (error) {
       setError(error.message);
     } finally {

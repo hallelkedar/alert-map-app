@@ -18,10 +18,9 @@
 .map-panel {
   position: sticky;
   top: 20px;
-  height: calc(100svh - 40px);
+  height: 600px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  overflow: hidden;
 }
 
 .side-panel input,
@@ -30,7 +29,6 @@
   padding: 8px 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  font: inherit;
   background: var(--bg);
   color: var(--text-h);
 }
@@ -41,7 +39,6 @@
   border-radius: 8px;
   background: var(--accent-bg);
   color: var(--text-h);
-  font: inherit;
   cursor: pointer;
 }
 
@@ -58,7 +55,7 @@
   grid-template-columns: 1fr;
 }
 
-.alert-card {
+.card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -67,6 +64,11 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
+}
+
+.card button {
+    width: 90px;
+    min-height: 20px;
 }
 
 .alert-card h3 {
@@ -113,4 +115,16 @@
     width: 50%;
     margin: 30px auto;
     gap: 4px;
+}
+
+.nav-bar {
+    margin: 20px;
+}
+.nav-bar a{
+    text-decoration: none;
+    background-color: white;
+    border-radius: 9px;
+    padding: 5px;
+    margin-top: 10px;
+    color: blue;
 }

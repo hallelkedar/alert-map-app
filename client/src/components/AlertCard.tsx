@@ -14,7 +14,7 @@ export const AlertCard = ({
   selected: boolean
 }) => {
   return (
-    <div className="alert-card">
+    <div className="card">
       <div className="card-header">
         <h3>{alert.displayName}</h3>
         <span>{alert.status}</span>

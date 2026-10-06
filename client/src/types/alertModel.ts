@@ -10,6 +10,7 @@ export interface AlertInput {
   status: "Active" | "Handled";
   lon: number;
   lat: number;
+  createdAt: string
 }
 
 export interface Alert extends AlertInput {

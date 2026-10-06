@@ -45,6 +45,7 @@ export const useAuthStore = create(
           const token = await registerUser(data);
           set({ token, isAuthenticated: true });
           const profile = await getProfile();
+          
           set({ user: profile, isLoading: false });
         } catch (error) {
           set({ isLoading: false });

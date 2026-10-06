@@ -7,6 +7,8 @@ import { AlertCard } from "../components/AlertCard";
 import type { AlertInput } from "../types/alertModel";
 import { NavBar } from "../components/NavBar";
 import { useAuthStore } from "../store/authStore";
+import { useCoordinatedAttack } from "../hooks/useDetectedAttack";
+import { ThreatAttackPopup } from "../components/ThreatAttack";
 
 export const Dashboard = () => {
   const {
@@ -19,7 +21,7 @@ export const Dashboard = () => {
     removeAlert,
   } = useAlerts();
 
-  const safeALerts = alerts ?? []
+  const safeALerts = alerts ?? [];
 
   const logout = useAuthStore((state) => state.logout);
   const user = useAuthStore((state) => state.user);
@@ -34,6 +36,8 @@ export const Dashboard = () => {
 
   const selectedAlert = safeALerts.find((a) => a.id === selectedId) ?? null;
   const editingAlert = safeALerts.find((a) => a.id === editingId) ?? null;
+
+  const isMultiAttack = useCoordinatedAttack(alerts);
 
   const openCreate = () => {
     clearError();
@@ -61,7 +65,7 @@ export const Dashboard = () => {
 
   const handleDelete = async (id: string) => {
     const ok = await removeAlert(id);
-    if (ok && id === selectedId) setSelectedId(null);
+    if (ok && id === selectedId) {setSelectedId(null);} 
   };
 
   const filteredAlerts = useMemo(() => {
@@ -78,13 +82,15 @@ export const Dashboard = () => {
 
   return (
     <div className="web-body">
+      
+      <div className="side-panel">
+        {isMultiAttack && <ThreatAttackPopup />}
       <NavBar
         username={user.username}
         userRole={user.role}
         isAdmin={user.role === "admin"}
         onLogout={logout}
       />
-      <div className="side-panel">
         {error && !formOpen && <span style={{ color: "red" }}>{error}</span>}
         {loading && <p>Loading...</p>}
 
