@@ -29,9 +29,10 @@ export default {
     if (req.user.role === "arena_user" && data.arena !== req.user.assignedArena)
       errorThrowing("You are not allowed to use -another arena- alert", 403);
 
-    const createdId = await alertsRepo.createAlert(data);
+    const createdId = await alertsRepo.createAlert({...data, createdAt: new Date()});
     return res.status(201).json({ alert: { _id: createdId, ...data } });
   },
+
   deleteAlert: async (req, res) => {
     const deleted = await alertsRepo.deleteAlert(req.params.id);
     if (!deleted) errorThrowing("Alert not found", 404);

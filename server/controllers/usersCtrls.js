@@ -9,7 +9,6 @@ export default {
     const { email, password } = req.body;
     if (!email || !password)
       errorThrowing("Email and password are required fields", 400);
-
     const token = await usersService.loginUser(email, password);
     return res.status(201).json({ token });
   },

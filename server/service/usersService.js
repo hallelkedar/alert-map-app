@@ -6,7 +6,10 @@ import { errorThrowing } from "../utils/errorThrowing.js";
 export default {
   registUser: async (data) => {
     const { username, password, email, role, assignedArena } = data;
-    const hashedPassword = bcrypt.hash(password, 12);
+    const existsUser = await usersRepo.findUserByEmail(email)
+    if (existsUser) errorThrowing('Email already used', 409)
+
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const createdId = await usersRepo.createUser({
       username,

@@ -25,16 +25,16 @@ app.post("/api/auth/register", usersCtrls.register);
 
 app.get("/api/auth/me", authenticateUser, usersCtrls.getUserDetails);
 app.get(
-  "/api/auth/users/:id",
-  authenticateUser,
-  authorization(["admin"]),
-  usersCtrls.getUserDetails,
-);
-app.get(
   "/api/auth/users",
   authenticateUser,
   authorization(["admin"]),
   usersCtrls.getAllUsers,
+);
+app.delete(
+  "/api/auth/users/:id",
+  authenticateUser,
+  authorization(["admin"]),
+  usersCtrls.deleteUser,
 );
 
 app.get("/api/alerts", authenticateUser, alertsCtrls.getAlerts);

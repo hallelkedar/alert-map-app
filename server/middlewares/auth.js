@@ -1,8 +1,10 @@
 import { errorThrowing } from "../utils/errorThrowing.js";
+import jwt from "jsonwebtoken";
 
 export const authenticateUser = (req, _res, next) => {
   const auth = req.headers.authorization;
-  if (!auth || !auth.startsWith("Bearer ")) errorThrowing("Unauthorized: no token provided", 401)
+  if (!auth || !auth.startsWith("Bearer "))
+    errorThrowing("Unauthorized: no token provided", 401);
 
   const token = auth.split(" ")[1];
   try {
@@ -10,7 +12,7 @@ export const authenticateUser = (req, _res, next) => {
     req.user = decode;
     next();
   } catch {
-    errorThrowing("Unauthorized: no token provided", 401)
+    errorThrowing("Unauthorized: token expired or invalid", 401);
   }
 };
 
