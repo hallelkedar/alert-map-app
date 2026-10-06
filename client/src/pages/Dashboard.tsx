@@ -65,7 +65,9 @@ export const Dashboard = () => {
 
   const handleDelete = async (id: string) => {
     const ok = await removeAlert(id);
-    if (ok && id === selectedId) {setSelectedId(null);} 
+    if (ok && id === selectedId) {
+      setSelectedId(null);
+    }
   };
 
   const filteredAlerts = useMemo(() => {
@@ -82,15 +84,14 @@ export const Dashboard = () => {
 
   return (
     <div className="web-body">
-      
       <div className="side-panel">
         {isMultiAttack && <ThreatAttackPopup />}
-      <NavBar
-        username={user.username}
-        userRole={user.role}
-        isAdmin={user.role === "admin"}
-        onLogout={logout}
-      />
+        <NavBar
+          username={user.username}
+          userRole={user.role}
+          isAdmin={user.role === "admin"}
+          onLogout={logout}
+        />
         {error && !formOpen && <span style={{ color: "red" }}>{error}</span>}
         {loading && <p>Loading...</p>}
 

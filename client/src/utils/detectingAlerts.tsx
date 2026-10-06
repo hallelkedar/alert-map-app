@@ -1,9 +1,6 @@
 import { ARENAS, type Alert } from "../types/alertModel";
 
-export const detectAttack = (
-  alerts: Alert[],
-  now: number,
-): boolean => {
+export const detectAttack = (alerts: Alert[], now: number): boolean => {
   const arenasUnderThreat = new Set();
 
   for (const alert of alerts) {

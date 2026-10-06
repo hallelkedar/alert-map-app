@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 
-export const AddUserForm = ({register, onBack}) => {
-
+export const AddUserForm = ({ register, onBack }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +32,9 @@ export const AddUserForm = ({register, onBack}) => {
   return (
     <form className="register-form" onSubmit={handleSubmit}>
       {error && <span style={{ color: "red" }}>{error}</span>}
-      <button onClick={() => onBack()} type="button">Back</button>
+      <button onClick={() => onBack()} type="button">
+        Back
+      </button>
 
       <input
         type="text"
@@ -80,9 +81,7 @@ export const AddUserForm = ({register, onBack}) => {
         </select>
       </label>
 
-      <button type="submit">
-        Add user
-      </button>
+      <button type="submit">Add user</button>
     </form>
   );
 };

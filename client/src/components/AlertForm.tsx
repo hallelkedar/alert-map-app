@@ -1,5 +1,11 @@
 import { useState } from "react";
-import type { Alert, AlertInput, Arena, Priority, Status } from "../types/alertModel";
+import type {
+  Alert,
+  AlertInput,
+  Arena,
+  Priority,
+  Status,
+} from "../types/alertModel";
 import { ARENAS, PRIORITIES, STATUSES } from "../types/alertModel";
 
 export const AlertForm = ({
@@ -11,16 +17,30 @@ export const AlertForm = ({
   onSubmit: (data: AlertInput) => void;
   onCancel: () => void;
   error: string | null;
-  initialItems: Alert | null
+  initialItems: Alert | null;
 }) => {
-  const [displayName, setName] = useState(initialItems ? initialItems.displayName : "");
-  const [description, setDesc] = useState(initialItems ? initialItems.description : "");
-  const [priority, setPriority] = useState<Priority>(initialItems ? initialItems.priority : "Medium");
-  const [arena, setArena] = useState<Arena>(initialItems ? initialItems.arena : "Center");
-  const [status, setStatus] = useState<Status>(initialItems ? initialItems.status : "Active");
+  const [displayName, setName] = useState(
+    initialItems ? initialItems.displayName : "",
+  );
+  const [description, setDesc] = useState(
+    initialItems ? initialItems.description : "",
+  );
+  const [priority, setPriority] = useState<Priority>(
+    initialItems ? initialItems.priority : "Medium",
+  );
+  const [arena, setArena] = useState<Arena>(
+    initialItems ? initialItems.arena : "Center",
+  );
+  const [status, setStatus] = useState<Status>(
+    initialItems ? initialItems.status : "Active",
+  );
 
-  const [lon, setLon] = useState<number | string>(initialItems ? initialItems.lon : '');
-  const [lat, setLat] = useState<number | string>(initialItems ? initialItems.lat : '');
+  const [lon, setLon] = useState<number | string>(
+    initialItems ? initialItems.lon : "",
+  );
+  const [lat, setLat] = useState<number | string>(
+    initialItems ? initialItems.lat : "",
+  );
 
   return (
     <form
@@ -43,7 +63,9 @@ export const AlertForm = ({
         });
       }}
     >
-      <button type="button" onClick={() => onCancel()}>Cancel</button>
+      <button type="button" onClick={() => onCancel()}>
+        Cancel
+      </button>
       {error && <span style={{ color: "red" }}>{error}</span>}
       <input
         type="text"

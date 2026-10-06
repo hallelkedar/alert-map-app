@@ -8,7 +8,7 @@ export default {
     const alerts = await alertsRepo.getAlerts();
     if (req.user.role === "arena_user")
       return res.json({
-        alerts: alerts.filter((a) => a.arena === user.assignedArena),
+        alerts: alerts.filter((a) => a.arena === req.user.assignedArena),
       });
 
     return res.json({ alerts });

@@ -8,8 +8,8 @@ function App() {
   const { initAuth } = useAuthStore();
 
   useEffect(() => {
-    initAuth()
-  }, [])
+    initAuth();
+  }, []);
 
   return <RouterProvider router={router} />;
 }

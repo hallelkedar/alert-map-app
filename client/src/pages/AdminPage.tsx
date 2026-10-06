@@ -7,12 +7,12 @@ import { AddUserForm } from "../components/AddUserForm";
 
 export const AdminPage = () => {
   const { user, logout } = useAuthStore();
-  const [addUserOpen, setAddUserOpen] = useState(false)
+  const [addUserOpen, setAddUserOpen] = useState(false);
 
   const { users, removeUser, error, addUser } = useUsers();
 
   return (
-    <div>
+    <div className="admin-page">
       <NavBar
         username={user.username}
         userRole={user.role}
@@ -21,8 +21,17 @@ export const AdminPage = () => {
         onLogout={logout}
       />
       {error && <span style={{ color: "red" }}>{error}</span>}
-      {!addUserOpen &&  <button onClick={() => setAddUserOpen(true)}>Add new user</button>}
-      {addUserOpen && <AddUserForm register={addUser} onBack={() => {setAddUserOpen(false)}} />}
+      {!addUserOpen && (
+        <button onClick={() => setAddUserOpen(true)}>Add new user</button>
+      )}
+      {addUserOpen && (
+        <AddUserForm
+          register={addUser}
+          onBack={() => {
+            setAddUserOpen(false);
+          }}
+        />
+      )}
 
       {!addUserOpen && <UsersList users={users} onDelete={removeUser} />}
     </div>

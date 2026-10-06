@@ -1,17 +1,18 @@
 import type { Alert } from "../types/alertModel";
+import { PRIORITY_COLOR } from "./AlertsMap";
 
 export const AlertCard = ({
   alert,
   onEdit,
   onDelete,
   onSelect,
-  selected = false
+  selected = false,
 }: {
   alert: Alert;
   onEdit: () => void;
   onDelete: () => void;
   onSelect: () => void;
-  selected: boolean
+  selected: boolean;
 }) => {
   return (
     <div className="card">
@@ -21,7 +22,9 @@ export const AlertCard = ({
       </div>
       <p>{alert.description}</p>
 
-      <span>{alert.priority}</span>
+      <span style={{ color: PRIORITY_COLOR[alert.priority] }}>
+        {alert.priority}
+      </span>
       <div className="card-loaction">
         <span>{alert.arena}</span>
         <span>{alert.lat}</span>

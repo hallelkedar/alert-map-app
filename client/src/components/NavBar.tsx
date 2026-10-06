@@ -9,10 +9,10 @@ export const NavBar = ({
 }) => {
   return (
     <div className="nav-bar">
-      <h2>Alerts Map</h2>
+      <h2 style={{ fontSize: "35px" }}>Alerts Map - עין צופה</h2>
       <div>
-        <span>{username}</span>
-        <span>{userRole}</span>
+        <span>Welcome {username}!</span>
+        <span> [{userRole}]</span>
       </div>
       {!inAdminManager && isAdmin && <Link to={"/admin"}>Admin manager</Link>}
       {inAdminManager && <Link to={"/"}>Back to dashboard</Link>}

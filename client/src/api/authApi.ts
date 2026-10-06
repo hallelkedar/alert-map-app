@@ -33,11 +33,11 @@ export const getUserById = async (id: string) => {
 };
 
 export const getAllUsers = async () => {
-    const res = await apiClient.get("/api/auth/users")
-    return res.data.users;
-}
+  const res = await apiClient.get("/api/auth/users");
+  return res.data.users;
+};
 
 export const deleteUser = async (id: string) => {
   const res = await apiClient.delete(`/api/auth/users/${id}`);
   return res.data.user;
-}
+};

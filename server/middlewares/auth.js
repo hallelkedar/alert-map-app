@@ -19,9 +19,8 @@ export const authenticateUser = (req, _res, next) => {
 export const authorization = (allowed = []) => {
   return (req, res, next) => {
     if (!req.user) errorThrowing("Unauthorized: no token provided");
-
     const isAllowed = allowed.includes(req.user.role);
-    if (!isAllowed) errorThrowing(403, "User is not allowed");
+    if (!isAllowed) errorThrowing("User is not allowed", 403);
     next();
   };
 };

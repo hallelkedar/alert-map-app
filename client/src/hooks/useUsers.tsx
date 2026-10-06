@@ -18,7 +18,7 @@ export const useUsers = () => {
 
   const addUser = async (data: User) => {
     try {
-      const result = await registerUser(data);
+      await registerUser(data);
       setUsers((prev) => [...prev, data]);
     } catch (error) {
       setError(error.message);

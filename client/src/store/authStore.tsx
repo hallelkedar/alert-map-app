@@ -9,7 +9,7 @@ export const useAuthStore = create(
       token: null,
       isAuthenticated: false,
       isLoading: false,
-      
+
       initAuth: async () => {
         const token = get().token;
         if (!token) return;
@@ -24,9 +24,9 @@ export const useAuthStore = create(
         }
       },
       login: async (email, password) => {
-        set({loading: true})
+        set({ loading: true });
         try {
-          const token  = await loginUser({ email, password });
+          const token = await loginUser({ email, password });
           set({ token, isAuthenticated: true });
 
           const profile = await getProfile();
@@ -40,12 +40,12 @@ export const useAuthStore = create(
         set({ user: null, token: null, isAuthenticated: false });
       },
       register: async (data) => {
-        set({loading: true})
+        set({ loading: true });
         try {
           const token = await registerUser(data);
           set({ token, isAuthenticated: true });
           const profile = await getProfile();
-          
+
           set({ user: profile, isLoading: false });
         } catch (error) {
           set({ isLoading: false });

@@ -7,6 +7,6 @@ export const ThreatAttackPopup = () => (
       padding: "12px 16px",
     }}
   >
-   Warning! multi attack
+    Warning! multi attack
   </div>
 );

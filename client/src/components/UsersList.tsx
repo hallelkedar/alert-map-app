@@ -8,16 +8,29 @@ export const UsersList = ({
   onDelete: (id: string) => void;
 }) => {
   return (
-    <ul className="cards-list">
+    <ul className="users-list">
       {users.map((u) => (
-        <li className="card">
-          <p>{u.id}</p>
-          <h3>{u.username}</h3>
-          <span>{u.email}</span>
-          <span>{u.role}</span>
-          <span>{u.assignedArena}</span>
+        <li className="user-card">
+          <div className="user-card-header">
+            <p>id: {u.id}</p>
+            <h3>Username: {u.username}</h3>
+          </div>
+          <div className="user-details">
+            <span>Email: {u.email}</span>
+            <span>Role: {u.role}</span>
+            <span>Area: {u.assignedArena}</span>
+          </div>
 
-          <button style={{color: 'red', backgroundColor: 'white'}} onClick={() => onDelete(u.id)}>Delete</button>
+          <button
+            style={{
+              color: "red",
+              backgroundColor: "rgb(177, 208, 234)",
+              borderRadius: "9px",
+            }}
+            onClick={() => onDelete(u.id)}
+          >
+            Delete
+          </button>
         </li>
       ))}
     </ul>

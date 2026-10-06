@@ -27,17 +27,17 @@ export const getErrorMessage = (error: unknown): string => {
 };
 
 export const getAlerts = async (): Promise<Alert[]> => {
-  const res = await apiClient.get<{ alerts: ServerAlert[] }>("/api/alerts");
+  const res = await apiClient.get("/api/alerts");
   return res.data.alerts.map(toAlert);
 };
 
 export const getAlert = async (id: string): Promise<Alert> => {
-  const res = await apiClient.get<{ alert: ServerAlert }>(`/api/alerts/${id}`);
+  const res = await apiClient.get(`/api/alerts/${id}`);
   return toAlert(res.data.alert);
 };
 
 export const createAlert = async (data: AlertInput): Promise<Alert> => {
-  const res = await apiClient.post<{ alert: ServerAlert }>("/api/alerts", data);
+  const res = await apiClient.post("/api/alerts", data);
   return toAlert(res.data.alert);
 };
 
@@ -45,16 +45,11 @@ export const updateAlert = async (
   id: string,
   data: Partial<AlertInput>,
 ): Promise<Alert> => {
-  const res = await apiClient.put<{ alert: ServerAlert }>(
-    `/api/alerts/${id}`,
-    data,
-  );
+  const res = await apiClient.put(`/api/alerts/${id}`, data);
   return toAlert(res.data.alert);
 };
 
 export const deleteAlert = async (id: string): Promise<Alert> => {
-  const res = await apiClient.delete<{ alert: ServerAlert }>(
-    `/api/alerts/${id}`,
-  );
+  const res = await apiClient.delete(`/api/alerts/${id}`);
   return toAlert(res.data.alert);
 };

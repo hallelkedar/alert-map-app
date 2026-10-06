@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 
 export type AlertPriority = "Low" | "Medium" | "High" | "Critical";
 
-
 export interface MapAlert {
   id: string | number;
   displayName: string;
@@ -32,7 +31,7 @@ const TILES_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const TILES_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const PRIORITY_COLOR: Record<AlertPriority, string> = {
+export const PRIORITY_COLOR: Record<AlertPriority, string> = {
   Low: "#5fa8d3",
   Medium: "#e3c65a",
   High: "#f08a3c",
@@ -40,7 +39,8 @@ const PRIORITY_COLOR: Record<AlertPriority, string> = {
 };
 
 const DEFAULT_COLOR = "#8497b0";
-const getColor = (priority: string) => PRIORITY_COLOR[priority as AlertPriority] ?? DEFAULT_COLOR;
+export const getColor = (priority: string) =>
+  PRIORITY_COLOR[priority as AlertPriority] ?? DEFAULT_COLOR;
 
 const PRIORITY_ORDER: AlertPriority[] = ["Low", "Medium", "High", "Critical"];
 
@@ -59,17 +59,30 @@ const CSS = `
 .alerts-map-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 `;
 
-export default function AlertsMap({ alerts, height = 520, className }: AlertsMapProps) {
+export default function AlertsMap({
+  alerts,
+  height = 520,
+  className,
+}: AlertsMapProps) {
   const sortedAlerts = useMemo(
     () =>
       alerts
-        .filter((alert) => Number.isFinite(alert.lon) && Number.isFinite(alert.lat))
-        .sort((a, b) => PRIORITY_ORDER.indexOf(a.priority as AlertPriority) - PRIORITY_ORDER.indexOf(b.priority as AlertPriority)),
-    [alerts]
+        .filter(
+          (alert) => Number.isFinite(alert.lon) && Number.isFinite(alert.lat),
+        )
+        .sort(
+          (a, b) =>
+            PRIORITY_ORDER.indexOf(a.priority as AlertPriority) -
+            PRIORITY_ORDER.indexOf(b.priority as AlertPriority),
+        ),
+    [alerts],
   );
 
   return (
-    <div className={className} style={{ position: "relative", height, background: "#0a1220" }}>
+    <div
+      className={className}
+      style={{ position: "relative", height, background: "#0a1220" }}
+    >
       <style>{CSS}</style>
 
       <MapContainer
@@ -91,20 +104,38 @@ export default function AlertsMap({ alerts, height = 520, className }: AlertsMap
                   center={position}
                   radius={15}
                   interactive={false}
-                  pathOptions={{ color, weight: 1, opacity: 0.5, fillOpacity: 0.12 }}
+                  pathOptions={{
+                    color,
+                    weight: 1,
+                    opacity: 0.5,
+                    fillOpacity: 0.12,
+                  }}
                 />
               )}
               <CircleMarker
                 center={position}
                 radius={isCritical ? 8 : 6}
-                pathOptions={{ color: "#0a1220", weight: 1.5, fillColor: color, fillOpacity: 1 }}
+                pathOptions={{
+                  color: "#0a1220",
+                  weight: 1.5,
+                  fillColor: color,
+                  fillOpacity: 1,
+                }}
               >
-                <Tooltip direction="top" offset={[0, -8]} opacity={1} className="alerts-map-tooltip">
+                <Tooltip
+                  direction="top"
+                  offset={[0, -8]}
+                  opacity={1}
+                  className="alerts-map-tooltip"
+                >
                   <div dir="auto" style={{ fontWeight: 600 }}>
                     {alert.displayName}
                   </div>
                   <div className="alerts-map-tooltip-priority">
-                    <span className="alerts-map-dot" style={{ background: color }} />
+                    <span
+                      className="alerts-map-dot"
+                      style={{ background: color }}
+                    />
                     {alert.priority}
                   </div>
                 </Tooltip>
@@ -133,8 +164,14 @@ export default function AlertsMap({ alerts, height = 520, className }: AlertsMap
         }}
       >
         {[...PRIORITY_ORDER].reverse().map((priority) => (
-          <li key={priority} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span className="alerts-map-dot" style={{ background: PRIORITY_COLOR[priority] }} />
+          <li
+            key={priority}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
+          >
+            <span
+              className="alerts-map-dot"
+              style={{ background: PRIORITY_COLOR[priority] }}
+            />
             {priority}
           </li>
         ))}
