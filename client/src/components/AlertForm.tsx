@@ -1,26 +1,23 @@
 import { useState } from "react";
-import type { Alert } from "../types/alertModel";
-
-export const priorityOptions = ["Low", "Medium", "High", "Critical"];
-export const arenaOptions = ["North", "South", "Center"];
-export const activeOptions = ["Active", "Handled"];
+import type { Alert, AlertInput, Arena, Priority, Status } from "../types/alertModel";
+import { ARENAS, PRIORITIES, STATUSES } from "../types/alertModel";
 
 export const AlertForm = ({
   onSubmit,
   onCancel,
   error = null,
-  initialItems = null
+  initialItems = null,
 }: {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>, data: Alert) => void;
+  onSubmit: (data: AlertInput) => void;
   onCancel: () => void;
   error: string | null;
   initialItems: Alert | null
 }) => {
   const [displayName, setName] = useState(initialItems ? initialItems.displayName : "");
   const [description, setDesc] = useState(initialItems ? initialItems.description : "");
-  const [priority, setPriority] = useState(initialItems ? initialItems.priority : "Medium");
-  const [arena, setArena] = useState(initialItems ? initialItems.arena : "Center");
-  const [status, setStatus] = useState(initialItems ? initialItems.status : "Active");
+  const [priority, setPriority] = useState<Priority>(initialItems ? initialItems.priority : "Medium");
+  const [arena, setArena] = useState<Arena>(initialItems ? initialItems.arena : "Center");
+  const [status, setStatus] = useState<Status>(initialItems ? initialItems.status : "Active");
 
   const [lon, setLon] = useState<number | string>(initialItems ? initialItems.lon : '');
   const [lat, setLat] = useState<number | string>(initialItems ? initialItems.lat : '');
@@ -33,33 +30,33 @@ export const AlertForm = ({
         width: "300px",
         margin: "12px auto",
       }}
-      onSubmit={(e) =>
-        onSubmit(e, {
-          displayName,
-          description,
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit({
+          displayName: displayName.trim(),
+          description: description.trim(),
           priority,
           arena,
           status,
-          lon,
-          lat,
-        })
-      }
+          lon: Number(lon),
+          lat: Number(lat),
+        });
+      }}
     >
-      <button onClick={() => onCancel()}>Cancel</button>
+      <button type="button" onClick={() => onCancel()}>Cancel</button>
       {error && <span style={{ color: "red" }}>{error}</span>}
       <input
         type="text"
         value={displayName}
         placeholder="Display name"
-        minLength={3}
-        maxLength={20}
+        maxLength={50}
         onChange={(e) => setName(e.target.value)}
         required
       />
 
       <textarea
         value={description}
-        minLength={10}
+        maxLength={500}
         placeholder="Tell more about your alert"
         onChange={(e) => setDesc(e.target.value)}
         required
@@ -69,10 +66,10 @@ export const AlertForm = ({
         Choose priority{" "}
         <select
           value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          onChange={(e) => setPriority(e.target.value as Priority)}
           required
         >
-          {priorityOptions.map((option) => (
+          {PRIORITIES.map((option) => (
             <option key={option} value={option}>
               {option}
             </option>
@@ -84,10 +81,10 @@ export const AlertForm = ({
         Choose arena{" "}
         <select
           value={arena}
-          onChange={(e) => setArena(e.target.value)}
+          onChange={(e) => setArena(e.target.value as Arena)}
           required
         >
-          {arenaOptions.map((option) => (
+          {ARENAS.map((option) => (
             <option key={option} value={option}>
               {option}
             </option>
@@ -99,10 +96,10 @@ export const AlertForm = ({
         Status{" "}
         <select
           value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          onChange={(e) => setStatus(e.target.value as Status)}
           required
         >
-          {activeOptions.map((option) => (
+          {STATUSES.map((option) => (
             <option key={option} value={option}>
               {option}
             </option>
@@ -113,6 +110,8 @@ export const AlertForm = ({
       <input
         type="number"
         step="any"
+        min={-180}
+        max={180}
         placeholder="Location longitude"
         value={lon}
         onChange={(e) =>
@@ -124,6 +123,8 @@ export const AlertForm = ({
       <input
         type="number"
         step="any"
+        min={-90}
+        max={90}
         placeholder="Location latitude"
         value={lat}
         onChange={(e) =>

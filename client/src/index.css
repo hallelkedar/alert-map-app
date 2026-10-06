@@ -1,4 +1,11 @@
+#root {
+  width: 100%;
+  min-height: 100svh;
+  box-sizing: border-box;
+}
+
 :root {
+  
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;

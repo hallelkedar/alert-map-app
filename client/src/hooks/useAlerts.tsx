@@ -7,12 +7,16 @@ export const useAlerts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
+  const clearError = () => {
+    setError(null)
+  }
+
   const loadAlerts = async () => {
     setLoading(true);
     setError(null);
     try {
       const alertData = await getAlerts();
-      setAlerts(alertData.alerts);
+      setAlerts(alertData);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -29,7 +33,7 @@ export const useAlerts = () => {
     setError(null);
     try {
       const alertData = await createAlert(data);
-      setAlerts(prev => [alertData, ...prev]);
+      setAlerts(prev => [alertData, ...prev])
     } catch (error) {
       setError(error.message);
     } finally {
@@ -42,7 +46,7 @@ export const useAlerts = () => {
     setError(null);
     try {
       await updateAlert(id, data);
-      setAlerts(prev => prev.map(a => a.id === id ? data : a));
+      setAlerts(prev => prev.map(a => a._id === id ? data : a));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -55,7 +59,7 @@ export const useAlerts = () => {
     setError(null);
     try {
       const alertData = await deleteAlert(id);
-      setAlerts(prev => prev.filter(a => a.id !== id));
+      setAlerts(prev => prev.filter(a => a._id !== id));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -67,6 +71,7 @@ export const useAlerts = () => {
     alerts,
     loading,
     error,
+    clearError,
     loadAlerts,
     addAlert,
     editAlert,

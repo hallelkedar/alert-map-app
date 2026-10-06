@@ -1,10 +1,17 @@
-export interface Alert {
-  id: string;
+export const PRIORITIES = ["Low", "Medium", "High", "Critical"];
+export const ARENAS = ["North", "South", "Center"];
+export const STATUSES = ["Active", "Handled"];
+
+export interface AlertInput {
   displayName: string;
   description: string;
-  priority: string;
-  status: string;
-  arena: string;
+  priority: "Low" | "Medium" | "High" | "Critical";
+  arena: "North" | "South" | "Center";
+  status: "Active" | "Handled";
   lon: number;
   lat: number;
+}
+
+export interface Alert extends AlertInput {
+  id: string;
 }
