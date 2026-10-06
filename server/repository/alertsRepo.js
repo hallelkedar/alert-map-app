@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 const collection = () => getDB().collection("alerts");
 
-const toObjId = (id) => {
+export const toObjId = (id) => {
     return ObjectId.isValid(id) ? new ObjectId(id) : null;
 }
 
